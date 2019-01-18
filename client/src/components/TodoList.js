@@ -7,12 +7,12 @@ import axios from "axios";
 
 /*
   TodoMVC
-  1. add todo
-  2. display todos
-  3. cross off todo
-  4. show number of active todos
-  5. filter all/active/complete
-  6. delete todo
+  1. add todo ✔️
+  2. display todos ✔️
+  3. cross off todo ✔️
+  4. show number of active todos ✔️
+  5. filter all/active/complete ✔️
+  6. delete todo ✔️
   7. delete all complete
     7.1 only show if atleast one is complete
   8. button to toggle all on/off
@@ -20,10 +20,20 @@ import axios from "axios";
 */
 
 export default class TodoList extends Component {
+  state = {
+    todoToShow: "all"
+  };
+
   addTodo = (dispatch, todo) => {
     dispatch({
       type: "add",
       payload: todo
+    });
+  };
+
+  updateTodoToShow = s => {
+    this.setState({
+      todoToShow: s
     });
   };
 
@@ -50,10 +60,19 @@ export default class TodoList extends Component {
       <Consumer>
         {value => {
           const { dispatch, todos } = value;
+          let task = [];
+
+          if (this.state.todoToShow === "all") {
+            task = todos;
+          } else if (this.state.todoToShow === "active") {
+            task = todos.filter(todo => !todo.complete);
+          } else if (this.state.todoToShow === "complete") {
+            task = todos.filter(todo => todo.complete);
+          }
           return (
             <React.Fragment>
               <TodoForm addTodo={this.addTodo.bind(this, dispatch)} />
-              {todos.map(todo => {
+              {task.map(todo => {
                 return (
                   <Todo
                     key={todo._id}
@@ -63,6 +82,22 @@ export default class TodoList extends Component {
                   />
                 );
               })}
+              <br />
+              <div>
+                todos left:
+                {todos.filter(todo => !todo.complete).length}
+              </div>
+              <div>
+                <button onClick={() => this.updateTodoToShow("all")}>
+                  all
+                </button>
+                <button onClick={() => this.updateTodoToShow("active")}>
+                  active
+                </button>
+                <button onClick={() => this.updateTodoToShow("complete")}>
+                  complete
+                </button>
+              </div>
             </React.Fragment>
           );
         }}
