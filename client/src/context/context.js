@@ -25,6 +25,10 @@ const reducer = (state, action) => {
         }
       })
     };
+  } else if (action.type === "delete_all") {
+    return {
+      todos: state.todos.filter(todo => !todo.complete)
+    };
   } else {
     return state;
   }

@@ -13,7 +13,7 @@ import axios from "axios";
   4. show number of active todos ✔️
   5. filter all/active/complete ✔️
   6. delete todo ✔️
-  7. delete all complete
+  7. delete all complete 
     7.1 only show if atleast one is complete
   8. button to toggle all on/off
     DONT USE Arrow function is JSX
@@ -55,6 +55,13 @@ export default class TodoList extends Component {
     });
   };
 
+  deleteAllComplete = dispatch => {
+    axios.post("/api/todo/all");
+    dispatch({
+      type: "delete_all"
+    });
+  };
+
   render() {
     return (
       <Consumer>
@@ -88,16 +95,19 @@ export default class TodoList extends Component {
                 {todos.filter(todo => !todo.complete).length}
               </div>
               <div>
-                <button onClick={() => this.updateTodoToShow("all")}>
+                <button onClick={this.updateTodoToShow.bind(this, "all")}>
                   all
                 </button>
-                <button onClick={() => this.updateTodoToShow("active")}>
+                <button onClick={this.updateTodoToShow.bind(this, "active")}>
                   active
                 </button>
-                <button onClick={() => this.updateTodoToShow("complete")}>
+                <button onClick={this.updateTodoToShow.bind(this, "complete")}>
                   complete
                 </button>
               </div>
+              <button onClick={this.deleteAllComplete.bind(this, dispatch)}>
+                RemoveAllCompleted
+              </button>
             </React.Fragment>
           );
         }}
