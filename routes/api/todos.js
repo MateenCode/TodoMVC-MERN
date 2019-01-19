@@ -27,7 +27,7 @@ router.post("/", (req, res) => {
 // @route   Post api/todos/all
 // @desc    remove All completed Todo
 // @access  Public
-router.post("/all", (req, res) => {
+router.delete("/all", (req, res) => {
   Todo.deleteMany({
     complete: true
   })
