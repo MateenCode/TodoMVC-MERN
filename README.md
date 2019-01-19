@@ -1,4 +1,4 @@
-# [Todo MVC](http://todomvc.surge.sh/)
+# Todo MVC
 
 A todo application that uses mongo express react & node that was made to pratice, pratice and pratice. This todo application was based on http://todomvc.com/ and recreated by me.
 
